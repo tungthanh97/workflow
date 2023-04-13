@@ -16,6 +16,14 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - run: echo world
+  print_name:
+    docker:
+      - image: circleci/node:13.8.0
+    environment:
+      my_name: Tung
+    steps:
+      - run: echo My name is $my_name
+    
 workflows:
   # Name the workflow "welcome"
   welcome:
