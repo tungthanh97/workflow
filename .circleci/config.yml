@@ -12,7 +12,7 @@ jobs:
     steps:
       - run: echo "Hello World" > output.txt
       - persist_to_workspace:
-          root: /tmp/workspace
+          root: ~/
           paths:  
             - output.txt
 
@@ -22,9 +22,9 @@ jobs:
     steps:
       - run: echo Hello World > output.txt
       - attach_workspace:
-          at: /tmp/workspace
+          at: ~/
       - run:  |
-          text_content = $(cat /tmp/workspace/output.txt)
+          text_content = $(cat ~/output.txt)
           if [[ text_content == "Hello World" ]]; then
             echo $text_content
           else
