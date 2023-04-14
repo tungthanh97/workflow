@@ -10,7 +10,7 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-      - run: echo "Hello World" > output.txt
+      - run: echo "Hello World" > ~/output.txt
       - persist_to_workspace:
           root: ~/
           paths:  
@@ -20,7 +20,6 @@ jobs:
     docker:
       - image: cimg/base:2020.01
     steps:
-      - run: echo Hello World > output.txt
       - attach_workspace:
           at: ~/
       - run:  |
