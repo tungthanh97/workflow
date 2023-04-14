@@ -23,7 +23,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run:  |
-          text_content = $(cat ~/output.txt)
+          text_content=$(cat ~/output.txt)
           if [[ text_content == "Hello World" ]]; then
             echo $text_content
           else
