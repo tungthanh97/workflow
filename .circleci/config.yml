@@ -6,31 +6,38 @@ orbs:
   welcome: circleci/welcome-orb@0.4.1
 # Orchestrate or schedule a set of jobs
 jobs:
-  print_hello:
+  save_hello_world-output:
     docker:
       - image: cimg/base:2020.01
     steps:
-      - run: echo hello
-  print_world:
+      - run: echo "Hello World" > output.txt
+      - persist_to_workspace:
+          root: /tmp/workspace
+          paths:  
+            - output.txt
+
+  print_output_file:
     docker:
       - image: cimg/base:2020.01
     steps:
-      - run: echo world
-  print_name:
-    docker:
-      - image: cimg/base:2020.01
-    steps:
-      - run: echo My name is $MY_NAME
-    
+      - run: echo Hello World > output.txt
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:  |
+          text_content = $(cat /tmp/workspace/output.txt)
+          if [[ text_content == "Hello World" ]]; then
+            echo $text_content
+          else
+            echo "Wrong input: $text_content"
+          fi
+  
 workflows:
   # Name the workflow "welcome"
   welcome:
     # Run the welcome/run job in its own container
     jobs:
-      - welcome/run
-      - print_hello
-      - print_world:
+      - save_hello_world-output
+      - print_output_file:
           requires:
-            - print_hello
-      - print_name:
-          requires: [print_world]
+              - save_hello_world-output
+      
